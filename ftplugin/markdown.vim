@@ -61,7 +61,7 @@ let s:levelRegexpDict = {
 " This could be deduced from `s:levelRegexpDict`, but it is more
 " efficient to have a single regexp for this.
 "
-let s:headersRegexp = '\v^(#|.+\n(\=+|-+)$)'
+let s:headersRegexp = '\v^(#+ |.+\n(\=+|-+)$)'
 
 " Returns the line number of the first header before `line`, called the
 " current header.
@@ -85,6 +85,10 @@ function! s:GetHeaderLineNum(...)
     return 0
 endfunction
 
+function! s:Jump(lineNumber)
+    execute 'normal ' . a:lineNumber . 'G'
+endfunction
+
 " -  if inside a header goes to it.
 "    Return its line number.
 "
@@ -95,7 +99,7 @@ endfunction
 function! s:MoveToCurHeader()
     let l:lineNum = s:GetHeaderLineNum()
     if l:lineNum != 0
-        call cursor(l:lineNum, 1)
+        call s:Jump(l:lineNum)
     else
         echo 'outside any header'
         "normal! gg
@@ -128,7 +132,7 @@ function! s:MoveToPreviousHeader()
         if l:previousHeaderLineNumber == 0
             let l:noPreviousHeader = 1
         else
-            call cursor(l:previousHeaderLineNumber, 1)
+            call s:Jump(l:previousHeaderLineNumber)
         endif
     endif
     if l:noPreviousHeader
@@ -227,8 +231,7 @@ endfunction
 function! s:MoveToParentHeader()
     let l:linenum = s:GetParentHeaderLineNumber()
     if l:linenum != 0
-        call setpos("''", getpos('.'))
-        call cursor(l:linenum, 1)
+        call s:Jump(l:linenum)
     else
         echo 'no parent header'
     endif
@@ -313,7 +316,7 @@ function! s:MoveToNextSiblingHeader()
     else
         let l:nextHeaderSameLevelParentLineNumber = s:GetParentHeaderLineNumber(l:nextHeaderSameLevelLineNumber)
         if l:curHeaderParentLineNumber == l:nextHeaderSameLevelParentLineNumber
-            call cursor(l:nextHeaderSameLevelLineNumber, 1)
+            call s:Jump(l:nextHeaderSameLevelLineNumber)
         else
             let l:noNextSibling = 1
         endif
@@ -338,7 +341,7 @@ function! s:MoveToPreviousSiblingHeader()
     else
         let l:previousHeaderSameLevelParentLineNumber = s:GetParentHeaderLineNumber(l:previousHeaderSameLevelLineNumber)
         if l:curHeaderParentLineNumber == l:previousHeaderSameLevelParentLineNumber
-            call cursor(l:previousHeaderSameLevelLineNumber, 1)
+            call s:Jump(l:previousHeaderSameLevelLineNumber)
         else
             let l:noPreviousSibling = 1
         endif
