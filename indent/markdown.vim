@@ -25,7 +25,7 @@ endfunction
 
 function! s:IsLiStart(line)
     return a:line !~ '^ *\([*-]\)\%( *\1\)\{2}\%( \|\1\)*$' &&
-      \    (a:line =~ '^\s*[*+-] \+' || a:line =~ '^\s*\d\. \+')
+      \    (a:line =~ '^\s*[*+-] \+' || a:line =~ '^\s*\d\. \+' || a:line =~ '^\s*>\+ \+')
 endfunction
 
 function! s:IsHeaderLine(line)
