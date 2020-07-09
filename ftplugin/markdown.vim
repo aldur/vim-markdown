@@ -86,7 +86,8 @@ function! s:GetHeaderLineNum(...)
 endfunction
 
 function! s:Jump(lineNumber)
-    execute 'normal ' . a:lineNumber . 'G'
+    call cursor(a:lineNumber, 1)
+    " execute 'normal ' . a:lineNumber . 'G'
 endfunction
 
 " -  if inside a header goes to it.
@@ -738,36 +739,36 @@ function! s:MapNotHasmapto(lhs, rhs)
     endif
 endfunction
 
-call <sid>MapNormVis('<Plug>Markdown_MoveToNextHeader', '<sid>MoveToNextHeader')
-call <sid>MapNormVis('<Plug>Markdown_MoveToPreviousHeader', '<sid>MoveToPreviousHeader')
-call <sid>MapNormVis('<Plug>Markdown_MoveToNextSiblingHeader', '<sid>MoveToNextSiblingHeader')
-call <sid>MapNormVis('<Plug>Markdown_MoveToPreviousSiblingHeader', '<sid>MoveToPreviousSiblingHeader')
-call <sid>MapNormVis('<Plug>Markdown_MoveToParentHeader', '<sid>MoveToParentHeader')
-call <sid>MapNormVis('<Plug>Markdown_MoveToCurHeader', '<sid>MoveToCurHeader')
+" call <sid>MapNormVis('<Plug>Markdown_MoveToNextHeader', '<sid>MoveToNextHeader')
+" call <sid>MapNormVis('<Plug>Markdown_MoveToPreviousHeader', '<sid>MoveToPreviousHeader')
+" call <sid>MapNormVis('<Plug>Markdown_MoveToNextSiblingHeader', '<sid>MoveToNextSiblingHeader')
+" call <sid>MapNormVis('<Plug>Markdown_MoveToPreviousSiblingHeader', '<sid>MoveToPreviousSiblingHeader')
+" call <sid>MapNormVis('<Plug>Markdown_MoveToParentHeader', '<sid>MoveToParentHeader')
+" call <sid>MapNormVis('<Plug>Markdown_MoveToCurHeader', '<sid>MoveToCurHeader')
 nnoremap <Plug>Markdown_OpenUrlUnderCursor :call <sid>OpenUrlUnderCursor()<cr>
 nnoremap <Plug>Markdown_EditUrlUnderCursor :call <sid>EditUrlUnderCursor()<cr>
 
 if !get(g:, 'vim_markdown_no_default_key_mappings', 0)
-    call <sid>MapNotHasmapto(']]', 'Markdown_MoveToNextHeader')
-    call <sid>MapNotHasmapto('[[', 'Markdown_MoveToPreviousHeader')
-    call <sid>MapNotHasmapto('][', 'Markdown_MoveToNextSiblingHeader')
-    call <sid>MapNotHasmapto('[]', 'Markdown_MoveToPreviousSiblingHeader')
-    call <sid>MapNotHasmapto(']u', 'Markdown_MoveToParentHeader')
-    call <sid>MapNotHasmapto(']c', 'Markdown_MoveToCurHeader')
+    " call <sid>MapNotHasmapto(']]', 'Markdown_MoveToNextHeader')
+    " call <sid>MapNotHasmapto('[[', 'Markdown_MoveToPreviousHeader')
+    " call <sid>MapNotHasmapto('][', 'Markdown_MoveToNextSiblingHeader')
+    " call <sid>MapNotHasmapto('[]', 'Markdown_MoveToPreviousSiblingHeader')
+    " call <sid>MapNotHasmapto(']u', 'Markdown_MoveToParentHeader')
+    " call <sid>MapNotHasmapto(']c', 'Markdown_MoveToCurHeader')
     call <sid>MapNotHasmapto('gx', 'Markdown_OpenUrlUnderCursor')
     call <sid>MapNotHasmapto('ge', 'Markdown_EditUrlUnderCursor')
 endif
 
-command! -buffer -range=% HeaderDecrease call s:HeaderDecrease(<line1>, <line2>)
-command! -buffer -range=% HeaderIncrease call s:HeaderDecrease(<line1>, <line2>, 1)
-command! -buffer -range=% SetexToAtx call s:SetexToAtx(<line1>, <line2>)
-command! -buffer TableFormat call s:TableFormat()
-command! -buffer Toc call s:Toc()
-command! -buffer Toch call s:Toc('horizontal')
-command! -buffer Tocv call s:Toc('vertical')
-command! -buffer Toct call s:Toc('tab')
-command! -buffer -nargs=? InsertToc call s:InsertToc('bullets', <args>)
-command! -buffer -nargs=? InsertNToc call s:InsertToc('numbers', <args>)
+" command! -buffer -range=% HeaderDecrease call s:HeaderDecrease(<line1>, <line2>)
+" command! -buffer -range=% HeaderIncrease call s:HeaderDecrease(<line1>, <line2>, 1)
+" command! -buffer -range=% SetexToAtx call s:SetexToAtx(<line1>, <line2>)
+" command! -buffer TableFormat call s:TableFormat()
+" command! -buffer Toc call s:Toc()
+" command! -buffer Toch call s:Toc('horizontal')
+" command! -buffer Tocv call s:Toc('vertical')
+" command! -buffer Toct call s:Toc('tab')
+" command! -buffer -nargs=? InsertToc call s:InsertToc('bullets', <args>)
+" command! -buffer -nargs=? InsertNToc call s:InsertToc('numbers', <args>)
 
 " Heavily based on vim-notes - http://peterodding.com/code/vim/notes/
 if exists('g:vim_markdown_fenced_languages')

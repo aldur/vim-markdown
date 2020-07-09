@@ -1,6 +1,6 @@
 " Only load this indent file when no other was loaded.
-if exists('b:did_indent') | finish | endif
-let b:did_indent = 1
+" if exists('b:did_indent') | finish | endif
+" let b:did_indent = 1
 
 setlocal indentexpr=GetMarkdownIndent(v:lnum)
 setlocal indentkeys=0<:>,0=*,0=-,0=+,!^F,o,O
@@ -20,7 +20,7 @@ endif
 let b:undo_indent = 'setlocal indentexpr< indentkeys< lisp< autoindent< formatoptions< comments<'
 
 " Only define the function once.
-if exists('*GetMarkdownIndent') | finish | endif
+" if exists('*GetMarkdownIndent') | finish | endif
 
 function! s:IsMkdCode(lnum) abort
     let name = synIDattr(synID(a:lnum, 1, 0), 'name')
@@ -52,9 +52,8 @@ function! GetMarkdownIndent(lnum) abort
         return shiftwidth()
     endif
 
-    " Reindent when pressing *
-    if current_line =~# s:unorder_list_re
-        " Look above for where's the previous list item and blank line
+    " Reindent when pressing [*+-]
+    if current_line =~# '^\s*[*+-]' " Look above for where's the previous list item and blank line
         let previous_list_item_n = search(s:unorder_list_re, 'Wbn')
         let previous_empty_n = search(s:whitespace_re, 'Wbn')
 
@@ -66,7 +65,10 @@ function! GetMarkdownIndent(lnum) abort
     endif
 
     " A blank line resets indentation to 0.
+    " A fenced code or quote block nested under a list item makes an exception.
     if empty(getline(past_line))
+                \ && current_line !~# '^\s\+```'
+                \ && current_line !~# '^\s\+> '
         return 0
     endif
 
@@ -82,8 +84,8 @@ function! GetMarkdownIndent(lnum) abort
     if s:IsLiStart(current_line)
         " Current line is the first line of a list item, do not change indent
         return indent(a:lnum)
-    elseif current_line =~# '^\s*# ' && !s:IsMkdCode(a:lnum)
-        " Current line is the header, do not indent
+    elseif current_line =~# '^\s*#\+ ' && !s:IsMkdCode(a:lnum)
+        " Current line is a header, do not indent
         return 0
     elseif s:IsLiStart(last_non_blank)
         if s:IsMkdCode(last_non_blank_n)
