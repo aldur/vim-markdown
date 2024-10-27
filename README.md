@@ -1,3 +1,16 @@
+# Archived - PSA
+
+I originally forked [vim-markdown](https://github.com/preservim/vim-markdown) to
+add customized indent and goodies while writing wiki notes.
+
+Nowadays, I no longer need those customizations. `neovim` and `treesitter` make
+it a lot easier to achieve the same. So, I am no longer using this plugin, and I
+am archiving it.
+
+I have extracted the minimal set of things I use into
+[tinymd.nvim](https://github.com/aldur/tinymd.nvim). Feel free to give it a look
+or go back to the upstream fork of this plugin.
+
 # Vim Markdown
 
 [![Build Status](https://travis-ci.org/plasticboy/vim-markdown.svg)](https://travis-ci.org/plasticboy/vim-markdown)
